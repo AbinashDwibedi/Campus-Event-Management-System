@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.abinash</groupId>
-	<artifactId>spring-security</artifactId>
+	<artifactId>campus-management-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
-	<description/>
+	<name>Campus Management System</name>
+	<description>Campus Event Management System built with Spring Boot and Spring Security</description>
 	<url/>
 	<licenses>
 		<license/>
