@@ -20,10 +20,10 @@ public class Students {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    @JoinColumn(name = "user_id", nullable = false, unique = true, updatable = false)
     @ToString.Exclude
     private MyUser user;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, updatable = false)
     private String rollNumber;
     @Column(nullable = false)
     private String name;
@@ -31,7 +31,7 @@ public class Students {
     private String email;
     @Column(nullable = false)
     private String department;
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private Integer joiningYear;
     @Builder.Default
     @ToString.Exclude
