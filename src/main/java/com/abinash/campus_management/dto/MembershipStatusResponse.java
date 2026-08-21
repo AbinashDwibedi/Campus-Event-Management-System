@@ -1,5 +1,6 @@
 package com.abinash.campus_management.dto;
 
+import com.abinash.campus_management.enums.ClubRoles;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -9,11 +10,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberResponse {
+public class MembershipStatusResponse {
 
-    private Long id;
-    private Long userId;
-    private String designation;
+    private boolean joined;
+    private ClubRoles role;
     private boolean hasEditAccess;
     private LocalDateTime joinedAt;
 }

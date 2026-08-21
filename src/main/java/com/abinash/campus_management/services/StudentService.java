@@ -39,6 +39,8 @@ public class StudentService {
             .joiningYear(request.getJoiningYear()).user(user).build();
 
       Students savedStudent = studentRepository.save(student);
+      user.setProfileCompleted(true);
+      userRepository.save(user);
       return mapper.map(savedStudent, StudentProfileResponse.class);
    }
 
@@ -75,5 +77,10 @@ public class StudentService {
          studentsPage = studentRepository.findAll(pageable);
       }
       return studentsPage.map(student -> mapper.map(student, StudentProfileResponse.class));
+   }
+   @Transactional
+   public void deleteStudentById(Long userId) {
+      Students student = studentRepository.findByUser_Id(userId).orElseThrow(()-> new ApiException(HttpStatus.OK, "Student not found"));
+      studentRepository.delete(student);
    }
 }

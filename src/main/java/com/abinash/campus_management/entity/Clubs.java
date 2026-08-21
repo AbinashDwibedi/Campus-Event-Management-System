@@ -27,6 +27,8 @@ public class Clubs {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String description;
     @Column(nullable = false, unique = true)
     private String contactEmail;
     @Builder.Default

@@ -1,22 +1,31 @@
 package com.abinash.campus_management.dto;
 
 import com.abinash.campus_management.enums.Category;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
-@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClubResponse {
-    private Long id;
+@Setter
+@Getter
+public class ClubCreationRequest {
+    @NotBlank
     private String clubCode;
+    @NotBlank
     private String name;
-    private String description;
+
+    @NotNull
     private Category category;
+
+    @NotBlank
+    private String description;
+
+    @NotBlank
+    @Email
     private String contactEmail;
-    private boolean isActive = true;
-    private boolean joined = false;
 }

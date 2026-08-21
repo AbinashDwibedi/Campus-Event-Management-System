@@ -1,5 +1,6 @@
 package com.abinash.campus_management.entity;
 
+import com.abinash.campus_management.enums.ClubRoles;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,8 +31,10 @@ public class ClubMemberships {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private MyUser user;
+    @Builder.Default
     @Column(nullable = false)
-    private String designation;
+    @Enumerated(EnumType.STRING)
+    private ClubRoles role = ClubRoles.MEMBER;
     @Builder.Default
     @Column(name = "has_edit_access",nullable = false)
     private boolean hasEditAccess = false;

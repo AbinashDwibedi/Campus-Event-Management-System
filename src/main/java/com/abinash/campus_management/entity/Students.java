@@ -37,4 +37,8 @@ public class Students {
     @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "student")
     private List<EventRegistrations> registrations = new ArrayList<>();
+//    @ToString.Exclude
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "club_id",nullable = true)
+//    private Clubs club;
 }

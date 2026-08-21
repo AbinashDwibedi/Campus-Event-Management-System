@@ -32,4 +32,7 @@ public class MyUser {
     private LocalDateTime createdAt;
     @OneToOne(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Students student;
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean profileCompleted = false;
 }

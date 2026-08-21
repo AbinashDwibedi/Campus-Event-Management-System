@@ -18,4 +18,6 @@ public interface StudentRepository extends JpaRepository<Students, Long> {
     Optional<Students> findByRollNumber(String rollNumber);
 
     Page<Students> findByDepartmentAndJoiningYear(String department, String joiningYear, Pageable pageable);
+
+    Optional<Students> findByUser_Id(Long userId);
 }

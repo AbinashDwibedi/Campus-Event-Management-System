@@ -24,7 +24,7 @@ public class JwtService {
     public String generateToken(String userName){
         Map<String, Object> claims = new HashMap<>();
         //    @Value("${secret.expiry}")
-        long EXPIRATION_TIME = 10 * 60 * 60 * 24;
+        long EXPIRATION_TIME = 10 * 60 * 60 * 24 * 1000;
         return Jwts.builder().claims(claims)
                 .subject(userName)
                 .issuedAt(new Date(System.currentTimeMillis()))

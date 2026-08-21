@@ -1,10 +1,10 @@
 package com.abinash.campus_management.controller;
 
+import com.abinash.campus_management.dto.LoginResponse;
 import com.abinash.campus_management.dto.MyUserDto;
 import com.abinash.campus_management.dto.MyUserLoginDto;
 import com.abinash.campus_management.dto.SuccessResponse;
 import com.abinash.campus_management.services.JwtService;
-import com.abinash.campus_management.services.MyUserDetailsService;
 import com.abinash.campus_management.services.MyUserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,8 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
@@ -29,7 +32,7 @@ public class UserAuth {
 
     @PostMapping("/register")
     public ResponseEntity<SuccessResponse<MyUserDto>> register(@Valid @RequestBody MyUserDto userDto) {
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
         MyUserDto registeredUser = myUserService.registerUser(userDto);
         return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "user created successfully", registeredUser));
     }
@@ -48,9 +51,9 @@ public class UserAuth {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<SuccessResponse<Void>> login(@Valid @RequestBody MyUserLoginDto userDto,
-            HttpServletResponse response) {
-        manager.authenticate(
+    public ResponseEntity<SuccessResponse<LoginResponse>> login(@RequestBody MyUserLoginDto userDto,
+                                                                HttpServletResponse response) {
+        Authentication authentication = manager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userDto.getName(),
                         userDto.getPassword()));
@@ -62,7 +65,9 @@ public class UserAuth {
         cookie.setPath("/");
 
         response.addCookie(cookie);
-        return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "login successfully", null));
+        List<String> roles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+        boolean isProfileComplete = myUserService.isProfileComplete(authentication.getName());
+        return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "login successfully", new LoginResponse(authentication.getName(),roles.getFirst(),isProfileComplete)));
     }
 
     @PostMapping("/logout")

@@ -1,5 +1,5 @@
 package com.abinash.campus_management.enums;
 
 public enum Authorities {
-    ROLE_STUDENT, ROLE_CLUB_LEADER, ROLE_ADMIN
+    ROLE_STUDENT, ROLE_ADMIN
 }

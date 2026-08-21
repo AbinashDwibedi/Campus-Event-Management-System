@@ -1,11 +1,9 @@
 package com.abinash.campus_management.controller;
 
-import com.abinash.campus_management.dto.ClubResponse;
 import com.abinash.campus_management.dto.StudentProfileResponse;
 import com.abinash.campus_management.dto.StudentRegistrationRequest;
 import com.abinash.campus_management.dto.StudentUpdateRequest;
 import com.abinash.campus_management.dto.SuccessResponse;
-import com.abinash.campus_management.services.ClubService;
 import com.abinash.campus_management.services.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentController {
   private final StudentService studentService;
-  private final ClubService clubService;
 
   @PostMapping("")
   public ResponseEntity<SuccessResponse<StudentProfileResponse>> createProfile(
@@ -64,10 +61,10 @@ public class StudentController {
     Page<StudentProfileResponse> spr = studentService.getAllStudents(department, joiningYear, pageable);
     return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "Student retrieved successfully", spr));
   }
-
-  @GetMapping("/me/clubs")
-  public ResponseEntity<SuccessResponse<List<ClubResponse>>> getMyClubs(Authentication authentication) {
-    List<ClubResponse> clubs = clubService.getMyClubs(authentication.getName());
-    return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "Clubs retrieved successfully", clubs));
+  @PreAuthorize("hasRole('ADMIN')")
+  @DeleteMapping("/{userId}")
+  public ResponseEntity<SuccessResponse<Void>> deleteStudentById(@PathVariable Long userId){
+    studentService.deleteStudentById(userId);
+    return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "Student deleted successfully"));
   }
 }
